@@ -1,0 +1,25 @@
+{
+  "name": "@zlalabs/splitbill",
+  "private": true,
+  "scripts": {
+    "prepare": "husky",
+    "build": "turbo build",
+    "dev": "dotenv -- turbo dev start:dev --parallel",
+    "lint": "turbo lint --parallel",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "db-gen": "pnpm dlx prisma generate --schema=./apps/api/prisma/schema.prisma",
+    "db-migrate": "pnpm dlx prisma migrate dev --schema=./apps/api/prisma/schema.prisma",
+    "db-pull": "pnpm dlx prisma db pull --schema=./apps/api/prisma/schema.prisma"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.5.0",
+    "turbo": "^2.4.2",
+    "typescript": "5.7.3"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=20"
+  }
+}
