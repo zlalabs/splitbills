@@ -1,0 +1,102 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String          @id @default(uuid())
+  username       String          @unique
+  password       String
+  name           String
+  email          String          @unique
+  mobile         String?
+  createdAt      DateTime        @default(now())
+  refreshToken   String?
+  bills          Bill[]
+  People         People[]
+  forgetPassword ForgetPassword?
+
+  @@map("users")
+}
+
+model ForgetPassword {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @unique
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@map("forget_passwords")
+}
+
+model People {
+  id     String @id @default(uuid())
+  name   String
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@map("peoples")
+}
+
+model Bill {
+  id        String   @id @default(uuid())
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+  name      String?
+  qrCode    String?
+  link      String
+  imageId   String?
+  image     Image?   @relation(fields: [imageId], references: [id])
+  completed Boolean
+  createdAt DateTime
+  members   Member[]
+  lists     List[]
+
+  @@map("bills")
+}
+
+model Image {
+  id       String   @id @default(uuid())
+  fileName String
+  path     String
+  fullPath String
+  member   Member[]
+  bill     Bill[]
+
+  @@map("images")
+}
+
+model Member {
+  id      String  @id @default(uuid())
+  name    String
+  bill    Bill?   @relation(fields: [billId], references: [id])
+  billId  String?
+  image   Image   @relation(fields: [imageId], references: [id])
+  imageId String
+  lists   List[]
+
+  @@map("members")
+}
+
+model List {
+  id      String   @id @default(uuid())
+  name    String
+  price   Float
+  bill    Bill?    @relation(fields: [billId], references: [id])
+  billId  String?
+  peoples Member[]
+
+  @@map("items")
+}
