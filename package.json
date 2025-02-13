@@ -12,6 +12,7 @@
     "db-pull": "pnpm dlx prisma db pull --schema=./apps/api/prisma/schema.prisma"
   },
   "devDependencies": {
+    "dotenv-cli": "^8.0.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.4.3",
     "prettier": "^3.5.0",
@@ -21,5 +22,11 @@
   "packageManager": "pnpm@9.0.0",
   "engines": {
     "node": ">=20"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint  --fix"
+    ]
   }
 }

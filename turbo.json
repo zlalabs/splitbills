@@ -16,6 +16,11 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "start:dev": {
+      "cache": false,
+      "persistent": true,
+      "env": ["APP_ENV", "API_PORT", "DATABASE_URL", "JWT_SECRET", "JWT_EXPIRATION_TIME"]
     }
   }
 }
