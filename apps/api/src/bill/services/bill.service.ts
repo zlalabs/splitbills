@@ -10,7 +10,7 @@ import { UpdateBillDto } from '../dtos/update-bill.dto'
 export class BillService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: CreateBillDto, userId: string) {
+  async create(data: CreateBillDto, userId?: string) {
     const genLink = nanoid()
 
     let bill: Bill
@@ -68,7 +68,7 @@ export class BillService {
     return result!
   }
 
-  findAll(page: number, limit: number, userId: string): Promise<Bill[]> {
+  findAll(page: number, limit: number, userId?: string): Promise<Bill[]> {
     const skip: number = page == 1 ? 0 : limit * (page - 1)
     return this.prisma.bill.findMany({
       skip: skip,
