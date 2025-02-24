@@ -3,6 +3,7 @@ import { IMemberDto } from './people'
 
 export interface IBillDto {
   id: string
+  link: string
   name?: string
   qrCode?: string
   tips?: number

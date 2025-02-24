@@ -1,4 +1,5 @@
 import Header from '@/components/headers/header'
+import { ReactQueryClientProvider } from '@/providers/ReactQueryClientProvider'
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
@@ -30,12 +31,14 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <NextIntlClientProvider messages={messages}>
-          <Header />
-          <div className="container mx-auto mt-4 px-4">{children}</div>
-        </NextIntlClientProvider>
-      </body>
+      <ReactQueryClientProvider>
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+          <NextIntlClientProvider messages={messages}>
+            <Header />
+            <div className="container mx-auto mt-4 px-4">{children}</div>
+          </NextIntlClientProvider>
+        </body>
+      </ReactQueryClientProvider>
     </html>
   )
 }

@@ -15,12 +15,12 @@ export default function Home() {
   const handleOnCreate = () => {
     updateTmpBill({
       ...tmpBill!,
+      name: undefined,
+      members: [],
       lists: [],
     })
     router.push('/create')
   }
-
-  const a = () => {}
 
   return (
     <div>

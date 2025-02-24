@@ -74,9 +74,20 @@ export const ModalPeople: FC<Props> = ({ isOpen, onOpen }) => {
       return result
     })
 
+    const members = tmpBill?.members?.concat(data)
+
+    const seen = new Set()
+    const uniqueMembers = members?.filter((member) => {
+      if (seen.has(member.name)) {
+        return false
+      }
+      seen.add(member.name)
+      return true
+    })
+
     updateTmpBill({
       ...tmpBill!,
-      members: data,
+      members: uniqueMembers,
       lists: lists,
     })
   }

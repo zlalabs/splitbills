@@ -11,7 +11,9 @@
     "update": "Update",
     "ok": "Ok",
     "confirm_delete": "Confirm Delete",
-    "action": "Action"
+    "action": "Action",
+    "add_list": "Add List",
+    "add_member": "Add Members"
   },
   "people": {
     "list": "List Peoples",

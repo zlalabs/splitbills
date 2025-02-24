@@ -18,6 +18,7 @@ const Header = () => {
                 Budg<strong>Mate</strong> : <span className="text-2xl">Split Bills</span>
               </Link>
             </div>
+            <div>login</div>
           </div>
         </div>
       </div>

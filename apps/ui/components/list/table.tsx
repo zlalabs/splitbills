@@ -8,37 +8,28 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { IListDto } from '@/types/list'
+import { useAppStore } from '@/store/store'
 import { Pencil, Trash2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { ModalDeleteConfirm } from '../modal/modal-delete'
 
 type Props = {
-  list: IListDto | undefined
-  lists: IListDto[] | undefined
   onEdit: (id: number) => void
-  openDelete: boolean
-  onDelete: (id: number) => void
-  onConfirmDelete: () => void
-  onCancelDelete: () => void
 }
 
-export const ListTable: FC<Props> = ({
-  list,
-  lists,
-  onEdit,
-  onDelete,
-  onConfirmDelete,
-  onCancelDelete,
-  openDelete,
-}) => {
+export const ListTable: FC<Props> = ({ onEdit }) => {
   const t = useTranslations()
+  const { tmpBill, updateTmpBill } = useAppStore()
+
+  const [openDelete, setOpenDelete] = useState<boolean>(false)
+  const [listIdx, setListIdx] = useState<number>()
 
   const ConfirmDelete = () => {
+    const data = tmpBill?.lists?.find((d, i) => i === listIdx)
     return (
       <>
-        {t('common.list')} : {list?.name}
+        {t('common.list')} : {data?.name}
       </>
     )
   }
@@ -47,8 +38,23 @@ export const ListTable: FC<Props> = ({
     onEdit(id)
   }
 
-  const handleOnOpenDelete = (id: number) => {
-    onDelete(id)
+  const handleOnDelete = (index: number) => {
+    setListIdx(index)
+    setOpenDelete(true)
+  }
+
+  const handleConfirmDeleteList = () => {
+    const update = tmpBill?.lists?.filter((x, i) => i !== listIdx)
+    updateTmpBill({
+      ...tmpBill!,
+      lists: update!,
+    })
+    setOpenDelete(false)
+    setListIdx(undefined)
+  }
+
+  const handleCancelDeleteList = () => {
+    setOpenDelete(false)
   }
 
   return (
@@ -64,12 +70,12 @@ export const ListTable: FC<Props> = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {lists?.map((d, i) => (
+          {tmpBill?.lists?.map((d, i) => (
             <TableRow key={i}>
               <TableCell className="text-center font-medium">{d.name}</TableCell>
               <TableCell className="text-center">{d.price}</TableCell>
               <TableCell className="text-center">
-                {(d.price / d.peoples.length)?.toFixed(2)}
+                {d?.peoples.length > 0 || d?.price ? (d?.price / d?.peoples?.length).toFixed(2) : 0}
               </TableCell>
               <TableCell>
                 <div className="flex">
@@ -87,7 +93,7 @@ export const ListTable: FC<Props> = ({
                   <Pencil className="cursor-pointer" onClick={() => handleOnEdit(i)} />
                 </div>
                 <div className="p-2">
-                  <Trash2 className="cursor-pointer" onClick={() => handleOnOpenDelete(i)} />
+                  <Trash2 className="cursor-pointer" onClick={() => handleOnDelete(i)} />
                 </div>
               </TableCell>
             </TableRow>
@@ -97,7 +103,7 @@ export const ListTable: FC<Props> = ({
           <TableRow>
             <TableCell colSpan={3}>{t('list.total')}</TableCell>
             <TableCell className="text-right">
-              {lists?.reduce((total, item) => total + (item?.price ?? 0), 0)}
+              {tmpBill?.lists?.reduce((total, item) => total + (item?.price ?? 0), 0)}
             </TableCell>
           </TableRow>
         </TableFooter>
@@ -105,8 +111,8 @@ export const ListTable: FC<Props> = ({
 
       <ModalDeleteConfirm
         title={`${t('common.confirm_delete')}`}
-        onConfirm={onConfirmDelete}
-        onCancel={onCancelDelete}
+        onConfirm={handleConfirmDeleteList}
+        onCancel={handleCancelDeleteList}
         open={openDelete}
       >
         <ConfirmDelete />

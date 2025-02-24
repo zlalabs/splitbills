@@ -1,11 +1,11 @@
 export interface IPeopleDto {
-  id: string
+  id?: string
   name: string
   order: number
 }
 
 export interface IMemberDto {
-  id: string
+  id?: string
   name: string
   order: number
   paid: boolean

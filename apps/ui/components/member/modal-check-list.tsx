@@ -35,14 +35,6 @@ export const ModalCheckList: FC<Props> = ({ open, member, onClose, lists, onChec
     onCheckMenu(index)
   }
 
-  // const ConfirmDelete = () => {
-  //   return (
-  //     <>
-  //       {t('common.list')} : {list?.name}
-  //     </>
-  //   )
-  // }
-
   return (
     <>
       <Drawer open={open}>
