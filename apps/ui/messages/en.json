@@ -1,0 +1,52 @@
+{
+  "common": {
+    "list": "List",
+    "done": "Done",
+    "close": "Close",
+    "add": "Add",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "create": "Create",
+    "update": "Update",
+    "ok": "Ok",
+    "confirm_delete": "Confirm Delete",
+    "action": "Action",
+    "add_list": "Add List",
+    "add_member": "Add Members",
+    "price": "Price",
+    "delete": "Delete"
+  },
+  "people": {
+    "list": "List Peoples",
+    "name": "Name",
+    "enter_name": "Enter name...",
+    "amount": "People Amount"
+  },
+  "member": {
+    "list": "List Members",
+    "name": "Name",
+    "price": "Price",
+    "status": "Status",
+    "paid": "Paid",
+    "not_paid": "Not Paid",
+    "pay": "Pay"
+  },
+  "bill": {
+    "create": "Create Bill",
+    "name": "Bill Name"
+  },
+  "price": {
+    "amount": "Amount",
+    "total": "Total Price"
+  },
+  "list": {
+    "create": "Create List",
+    "name": "List Name",
+    "detail": "Detail",
+    "price": "Price",
+    "price_per_person": "Price Per Person",
+    "peoples": "Peoples",
+    "total": "Total"
+  }
+}
