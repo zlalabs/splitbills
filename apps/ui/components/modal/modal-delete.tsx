@@ -30,9 +30,7 @@ export const ModalDeleteConfirm: FC<Props> = ({ title, open, children, onConfirm
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={onCancel}>{t('common.cancel')}</AlertDialogCancel>
-          <AlertDialogAction className="danger" onClick={onConfirm}>
-            {t('common.confirm')}
-          </AlertDialogAction>
+          <AlertDialogAction onClick={onConfirm}>{t('common.confirm')}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

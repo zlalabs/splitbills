@@ -1,3 +1,4 @@
+import { IBillDto, ICreateBillDto } from '@/types'
 import { IStoreState } from '@/types/store'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
@@ -13,9 +14,9 @@ export const useAppStore = create<IStoreState>()(
           loading: status,
         })),
       bills: [],
-      createBill: (data) =>
+      createBill: (data: ICreateBillDto) =>
         set((state) => ({
-          bills: state.bills.concat(data),
+          bills: state.bills.concat(data as IBillDto),
         })),
       removeBill: (id) => set((state) => ({ bills: state.bills.filter((x) => x.id != id) })),
       peoples: [],
@@ -23,10 +24,10 @@ export const useAppStore = create<IStoreState>()(
         set((state) => ({
           peoples: state.peoples.concat(data),
         })),
-      updatePeople: (id, data) =>
+      updatePeople: (index, data) =>
         set((state) => ({
-          peoples: state.peoples.map((people) => {
-            if (people.id === id) {
+          peoples: state.peoples.map((people, idx) => {
+            if (idx === index) {
               return {
                 ...people,
                 ...data,
@@ -35,7 +36,8 @@ export const useAppStore = create<IStoreState>()(
             return people
           }),
         })),
-      removePeople: (id) => set((state) => ({ peoples: state.peoples.filter((x) => x.id != id) })),
+      removePeople: (index) =>
+        set((state) => ({ peoples: state.peoples.filter((x, idx) => idx !== index) })),
       tmpBill: undefined,
       updateTmpBill: (data) =>
         set(() => ({

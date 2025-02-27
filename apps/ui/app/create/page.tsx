@@ -1,8 +1,8 @@
 'use client'
 
 import { DashboardCreate } from '@/components/dashboard/create'
-import { ListTable } from '@/components/list/table'
-import { MemberTable } from '@/components/member/table'
+import { TmpListTable } from '@/components/list/tmp-table'
+import { TmpMemberTable } from '@/components/member/tmp-table'
 import { ModalList } from '@/components/modal/list'
 import { PeopleList } from '@/components/people/list'
 import { Button } from '@/components/ui/button'
@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useCreateBill } from '@/hooks/services/useBill'
 import { useAppStore } from '@/store/store'
-import { IListDto, IMemberDto } from '@/types'
+import { ICreateBillDto, ITmpListDto, ITmpMemberDto } from '@/types'
 import { MODE } from '@/utils/constant'
 import { List, Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
@@ -20,7 +20,7 @@ import { useState } from 'react'
 export default function CreatePage() {
   const t = useTranslations()
   const router = useRouter()
-  const { updateTmpBill, tmpBill } = useAppStore()
+  const { updateTmpBill, tmpBill, createBill } = useAppStore()
   const createBillService = useCreateBill()
 
   const [loading, setLoading] = useState(false)
@@ -28,8 +28,8 @@ export default function CreatePage() {
   const [mode, setMode] = useState<string | undefined>()
   const [openList, setOpenList] = useState<boolean>(false)
   const [listIdx, setListIdx] = useState<number>()
-  const [list, setList] = useState<IListDto | undefined>()
-  const [member, setMember] = useState<IMemberDto | undefined>()
+  const [list, setList] = useState<ITmpListDto | undefined>()
+  const [member, setMember] = useState<ITmpMemberDto | undefined>()
 
   const handleOnSubmit = async () => {
     setLoading(true)
@@ -40,7 +40,13 @@ export default function CreatePage() {
       {
         onSuccess: async (res) => {
           const data = await res.data
-          console.log('res', res, data)
+          createBill(data as ICreateBillDto)
+          updateTmpBill({
+            ...tmpBill!,
+            name: undefined,
+            members: [],
+            lists: [],
+          })
           return router.push(`/bill/${data?.link}`)
         },
       }
@@ -82,7 +88,7 @@ export default function CreatePage() {
     setOpenList(!openList)
   }
 
-  const handleChangeDataList = (data: IListDto) => {
+  const handleChangeDataList = (data: ITmpListDto) => {
     setList(data)
   }
 
@@ -126,6 +132,7 @@ export default function CreatePage() {
       (max, list) => (list.order > max ? list.order : max),
       0
     )
+
     setMember({
       name: name,
       order: lastOrder + 1,
@@ -204,10 +211,10 @@ export default function CreatePage() {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="list">
-          <ListTable onEdit={handleOnEditList} />
+          <TmpListTable onEdit={handleOnEditList} />
         </TabsContent>
         <TabsContent value="member">
-          <MemberTable />
+          <TmpMemberTable />
         </TabsContent>
       </Tabs>
 

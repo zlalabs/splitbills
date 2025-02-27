@@ -15,7 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { IListDto, IMemberDto } from '@/types'
+import { ITmpListDto, ITmpMemberDto } from '@/types'
 import { Check, Plus } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { FC } from 'react'
@@ -23,8 +23,8 @@ import { FC } from 'react'
 type Props = {
   open: boolean
   onClose: () => void
-  lists: IListDto[] | undefined
-  member: IMemberDto | undefined
+  lists: ITmpListDto[] | undefined
+  member: ITmpMemberDto | undefined
   onCheckMenu: (index: number) => void
 }
 

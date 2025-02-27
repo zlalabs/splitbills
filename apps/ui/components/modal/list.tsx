@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { useAppStore } from '@/store/store'
-import { IListDto } from '@/types'
+import { ITmpListDto } from '@/types'
 import { MODE } from '@/utils/constant'
 import { useTranslations } from 'next-intl'
 import { FC } from 'react'
@@ -19,8 +19,8 @@ type Props = {
   mode: string
   isOpen: boolean
   onOpen: (status: boolean) => void
-  list: IListDto | undefined
-  onChangeData: (list: IListDto) => void
+  list: ITmpListDto | undefined
+  onChangeData: (list: ITmpListDto) => void
   onSubmit: () => void
 }
 
@@ -30,16 +30,16 @@ export const ModalList: FC<Props> = ({ mode, isOpen, onOpen, list, onChangeData,
 
   const handlePeople = (idx: number) => {
     if (!list) return
-    const findPeople = tmpBill?.members?.find((p, i) => i === idx)
+    const findPeople = tmpBill?.members?.find((_, i) => i === idx)
 
-    const updatedPeople: IListDto = {
+    const updatedPeople: ITmpListDto = {
       ...list,
       peoples:
         list.peoples?.length === 0
           ? list.peoples?.concat(findPeople!.name)
-          : list.peoples?.find((p) => p === findPeople?.name)
-            ? list.peoples?.filter((p) => p !== findPeople?.name)
-            : list.peoples?.concat(findPeople!.name),
+          : list.peoples?.find((p) => p === findPeople!.name)
+            ? list.peoples?.filter((p) => p !== findPeople!.name)
+            : (list.peoples || []).concat(findPeople!.name),
     }
 
     onChangeData(updatedPeople)
@@ -80,6 +80,7 @@ export const ModalList: FC<Props> = ({ mode, isOpen, onOpen, list, onChangeData,
                   key={i}
                   variant={choose ? `default` : `secondary`}
                   onClick={() => handlePeople(i)}
+                  className="cursor-pointer"
                 >
                   {p.name}
                 </Badge>

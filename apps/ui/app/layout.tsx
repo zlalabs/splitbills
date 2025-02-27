@@ -1,5 +1,5 @@
 import Header from '@/components/headers/header'
-import { ReactQueryClientProvider } from '@/providers/ReactQueryClientProvider'
+import { ReactQueryClientProvider } from '@/contexts/ReactQueryClient'
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'

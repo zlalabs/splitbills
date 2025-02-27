@@ -10,15 +10,15 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
-import { IMemberDto } from '@/types'
+import { ITmpMemberDto } from '@/types'
 import { useTranslations } from 'next-intl'
 import { FC, useState } from 'react'
 
 type Props = {
   open: boolean
-  member: IMemberDto | undefined
+  member: ITmpMemberDto | undefined
   onCancel: () => void
-  onConfirm: (data: IMemberDto) => void
+  onConfirm: (data: ITmpMemberDto) => void
 }
 
 export const ModalMemberEdit: FC<Props> = ({ open, member, onCancel, onConfirm }) => {

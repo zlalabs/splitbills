@@ -13,7 +13,9 @@
     "confirm_delete": "Confirm Delete",
     "action": "Action",
     "add_list": "Add List",
-    "add_member": "Add Members"
+    "add_member": "Add Members",
+    "price": "Price",
+    "delete": "Delete"
   },
   "people": {
     "list": "List Peoples",
@@ -27,6 +29,7 @@
     "price": "Price",
     "status": "Status",
     "paid": "Paid",
+    "not_paid": "Not Paid",
     "pay": "Pay"
   },
   "bill": {

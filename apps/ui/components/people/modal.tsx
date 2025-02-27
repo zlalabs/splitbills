@@ -18,8 +18,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { useAppStore } from '@/store/store'
-import { IListDto } from '@/types'
-import { IMemberDto, IPeopleDto } from '@/types/people'
+import { ITmpListDto } from '@/types'
+import { ITmpMemberDto, ITmpPeopleDto } from '@/types/people'
 import { transformToSelect } from '@/utils/helper'
 import { CheckedState } from '@radix-ui/react-checkbox'
 import {
@@ -36,7 +36,6 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { Check, Trash2 } from 'lucide-react'
-import { nanoid } from 'nanoid'
 import { useTranslations } from 'next-intl'
 import { FC, useEffect, useState } from 'react'
 
@@ -63,10 +62,10 @@ export const ModalPeople: FC<Props> = ({ isOpen, onOpen }) => {
     setLoading(false)
   }, [loading])
 
-  const handleOnCheckMember = (data: IMemberDto[]) => {
+  const handleOnCheckMember = (data: ITmpMemberDto[]) => {
     const names = data.map((d) => d.name)
-    const lists: IListDto[] | undefined = tmpBill?.lists?.map((list) => {
-      const result: IListDto = {
+    const lists: ITmpListDto[] | undefined = tmpBill?.lists?.map((list) => {
+      const result: ITmpListDto = {
         ...list,
         peoples: list?.peoples?.filter((person) => names.includes(person)),
       }
@@ -115,8 +114,7 @@ export const ModalPeople: FC<Props> = ({ isOpen, onOpen }) => {
       return
     }
 
-    const people: IPeopleDto = {
-      id: nanoid(),
+    const people: ITmpPeopleDto = {
       name: name!,
       order: lastOrder + 1,
     }
@@ -124,8 +122,8 @@ export const ModalPeople: FC<Props> = ({ isOpen, onOpen }) => {
     setName('')
   }
 
-  const handleRemovePeople = (id: string) => {
-    removePeople(id)
+  const handleRemovePeople = (index: number) => {
+    removePeople(index)
   }
 
   const onSelectChange = (index: number, value: CheckedState) => {
@@ -137,13 +135,13 @@ export const ModalPeople: FC<Props> = ({ isOpen, onOpen }) => {
       ?.map((index) => peoples[index])
       ?.filter(Boolean)
       ?.map((people) => {
-        return people as IMemberDto
+        return people as ITmpMemberDto
       })
 
     handleOnCheckMember(filterPeoples)
   }
 
-  const columns: ColumnDef<IPeopleDto>[] = [
+  const columns: ColumnDef<ITmpPeopleDto>[] = [
     {
       id: 'select',
       header: ({ table }) => (
@@ -179,7 +177,10 @@ export const ModalPeople: FC<Props> = ({ isOpen, onOpen }) => {
       enableHiding: false,
       cell: ({ row }) => {
         return (
-          <Trash2 className="cursor-pointer" onClick={() => handleRemovePeople(row.original.id)} />
+          <Trash2
+            className="cursor-pointer"
+            onClick={() => handleRemovePeople(row.original.order - 1)}
+          />
         )
       },
     },
