@@ -27,7 +27,6 @@ export class UserController {
     const query = await this.userService.create(data)
     const { password: _, ...user } = query
     const response = new ResponseData(true, user)
-    // console.log('xx')
     res.status(HttpStatus.CREATED).json(response)
   }
 }

@@ -5,6 +5,7 @@ import { nanoid } from 'nanoid'
 import { PrismaService } from '../../prisma/prisma.service'
 import { CreateBillDto } from '../dtos/create-bill.dto'
 import { UpdateBillDto } from '../dtos/update-bill.dto'
+import { UpdateMemberPaid } from '../dtos/update-member-paid.dto'
 
 @Injectable()
 export class BillService {
@@ -99,6 +100,26 @@ export class BillService {
     })
   }
 
+  async findByLink(link: string): Promise<Bill | null> {
+    return this.prisma.bill.findFirst({
+      where: {
+        link,
+      },
+      include: {
+        lists: {
+          include: {
+            peoples: {
+              include: {
+                member: true,
+              },
+            },
+          },
+        },
+        members: true,
+      },
+    })
+  }
+
   update(id: string, data: UpdateBillDto): Promise<Bill> {
     return this.prisma.bill.update({
       where: {
@@ -134,6 +155,27 @@ export class BillService {
     return this.prisma.bill.count({
       where: {
         userId: userId,
+      },
+    })
+  }
+
+  async removeLink(id: string, link: string) {
+    await this.prisma.bill.delete({
+      where: {
+        id: id,
+        link: link,
+      },
+    })
+  }
+
+  async updateMemberPaid(billId: string, data: UpdateMemberPaid) {
+    await this.prisma.member.update({
+      where: {
+        billId: billId,
+        id: data.id,
+      },
+      data: {
+        paid: data.paid,
       },
     })
   }

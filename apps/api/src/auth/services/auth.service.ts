@@ -29,7 +29,7 @@ export class AuthService {
     if (user && match) {
       const { id, username, name, email, mobile } = user
 
-      const payload = { username: username, sub: user.id }
+      const payload = { username: username, sub: user.id, id: user.id, iat: Date.now() }
       const token = await this.jwtService.signAsync(payload)
 
       return {

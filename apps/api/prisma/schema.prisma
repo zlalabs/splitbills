@@ -42,10 +42,11 @@ model ForgetPassword {
 }
 
 model People {
-  id     String @id @default(uuid())
+  id     String   @id @default(uuid())
   name   String
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  userId String?
+  user   User?    @relation(fields: [userId], references: [id])
+  member Member[]
 
   @@map("peoples")
 }
@@ -58,7 +59,7 @@ model Bill {
   qrCode    String?
   link      String
   imageId   String?
-  image     Image?   @relation(fields: [imageId], references: [id])
+  image     Image?   @relation(fields: [imageId], references: [id], onDelete: Cascade)
   completed Boolean
   createdAt DateTime
   members   Member[]
@@ -68,35 +69,46 @@ model Bill {
 }
 
 model Image {
-  id       String   @id @default(uuid())
+  id       String @id @default(uuid())
   fileName String
   path     String
   fullPath String
-  member   Member[]
   bill     Bill[]
 
   @@map("images")
 }
 
 model Member {
-  id      String  @id @default(uuid())
-  name    String
-  bill    Bill?   @relation(fields: [billId], references: [id])
-  billId  String?
-  image   Image   @relation(fields: [imageId], references: [id])
-  imageId String
-  lists   List[]
+  id       String         @id @default(uuid())
+  name     String
+  order    Int
+  paid     Boolean        @default(false)
+  people   People?        @relation(fields: [peopleId], references: [id])
+  peopleId String?
+  bill     Bill?          @relation(fields: [billId], references: [id])
+  billId   String?
+  lists    PeopleOnList[]
 
   @@map("members")
 }
 
 model List {
-  id      String   @id @default(uuid())
+  id      String         @id @default(uuid())
   name    String
   price   Float
-  bill    Bill?    @relation(fields: [billId], references: [id])
+  bill    Bill?          @relation(fields: [billId], references: [id])
   billId  String?
-  peoples Member[]
+  peoples PeopleOnList[]
 
-  @@map("items")
+  @@map("lists")
+}
+
+model PeopleOnList {
+  member   Member @relation(fields: [memberId], references: [id])
+  memberId String
+  list     List   @relation(fields: [listId], references: [id])
+  listId   String
+
+  @@id([memberId, listId])
+  @@map("people_on_lists")
 }
