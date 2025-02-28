@@ -1,12 +1,13 @@
 'use client'
 
 import { DashboardView } from '@/components/dashboard/view'
+import { CopyLink } from '@/components/link/url'
 import { ListTable } from '@/components/list/table'
+import { Loader } from '@/components/loading/Loading'
 import { MemberTable } from '@/components/member/table'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useGetBillById, useUpdateBillPaid } from '@/hooks/services/useBill'
 import { IBillDto } from '@/types'
-import { Loader2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { use, useEffect, useState } from 'react'
 
@@ -51,11 +52,7 @@ export default function EditPage({ params }: { params: { link: string } }) {
   }
 
   if (isLoading) {
-    return (
-      <span>
-        <Loader2 className="animate-spin" size={50} />
-      </span>
-    )
+    return <Loader />
   }
 
   return (
@@ -78,6 +75,8 @@ export default function EditPage({ params }: { params: { link: string } }) {
           <MemberTable bill={data} onPaid={handleOnPaid} />
         </TabsContent>
       </Tabs>
+
+      <CopyLink bill={bill!.data} />
     </>
   )
 }

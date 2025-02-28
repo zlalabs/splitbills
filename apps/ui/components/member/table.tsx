@@ -55,7 +55,7 @@ export const MemberTable: FC<Props> = ({ bill, onPaid }) => {
                   className="cursor-pointer"
                   onClick={() => onPaid(member.id)}
                 >
-                  <div>
+                  <div className="pr-2">
                     <Banknote />
                   </div>
                   <div>{member.paid ? t('member.paid') : t('member.not_paid')}</div>
