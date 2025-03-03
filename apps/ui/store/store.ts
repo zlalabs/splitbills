@@ -13,6 +13,11 @@ export const useAppStore = create<IStoreState>()(
         set(() => ({
           loading: status,
         })),
+      isFirstTime: true,
+      setFirstTime: (status: boolean) =>
+        set(() => ({
+          isFirstTime: status,
+        })),
       bills: [],
       createBill: (data: ICreateBillDto) =>
         set((state) => ({
@@ -37,8 +42,12 @@ export const useAppStore = create<IStoreState>()(
           }),
         })),
       removePeople: (index) =>
-        set((state) => ({ peoples: state.peoples.filter((x, idx) => idx !== index) })),
-      tmpBill: undefined,
+        set((state) => ({ peoples: state.peoples.filter((_, idx) => idx !== index) })),
+      tmpBill: {
+        link: '',
+        members: [],
+        lists: [],
+      },
       updateTmpBill: (data) =>
         set(() => ({
           tmpBill: { ...data },

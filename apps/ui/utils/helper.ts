@@ -6,8 +6,8 @@ export const transformToSelect = (
 ) => {
   const indexes = peoples
     ?.map((item) => members?.findIndex((d) => d.name === item.name))
-    .filter((index) => index !== -1)
-
+    ?.filter((index) => index !== -1)
+  if (indexes?.length === 0) return {}
   const transformed = indexes ? Object.fromEntries(indexes.map((index) => [index, true])) : {}
 
   return transformed

@@ -105,10 +105,12 @@ export const ModalPeople: FC<Props> = ({ isOpen, onOpen }) => {
 
   const onAddPeople = () => {
     setError(false)
-    const lastOrder = peoples.reduce((max, person) => (person.order > max ? person.order : max), 0)
+    const lastOrder = peoples?.reduce(
+      (max, person) => (person?.order > max ? person?.order : max),
+      0
+    )
 
-    const check = peoples.find((p) => p.name.toLowerCase() === name?.toLowerCase())
-
+    const check = peoples?.find((p) => p?.name?.toLowerCase() === name?.toLowerCase())
     if (check) {
       setError(true)
       return
