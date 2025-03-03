@@ -56,14 +56,14 @@ export default function CreatePage() {
   const handleOnChangeList = (event: React.ChangeEvent<HTMLInputElement>) => {
     const name = event.target.value
     if (name?.trim() === '') return
-    const lastOrder = tmpBill!.lists!.reduce(
+    const lastOrder = tmpBill?.lists?.reduce(
       (max, list) => (list.order > max ? list.order : max),
       0
     )
     setList({
       name: name,
       price: 0,
-      order: lastOrder + 1,
+      order: lastOrder ? lastOrder + 1 : 1,
       peoples: [],
     })
   }
@@ -128,14 +128,14 @@ export default function CreatePage() {
   const handleOnChangeMember = (event: React.ChangeEvent<HTMLInputElement>) => {
     const name = event.target.value
     if (name?.trim() === '') return
-    const lastOrder = tmpBill!.members!.reduce(
+    const lastOrder = tmpBill?.members?.reduce(
       (max, list) => (list.order > max ? list.order : max),
       0
     )
 
     setMember({
       name: name,
-      order: lastOrder + 1,
+      order: lastOrder ? lastOrder + 1 : 1,
       paid: false,
       lists: [],
     })
