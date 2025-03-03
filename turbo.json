@@ -5,7 +5,7 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
     "lint": {
       "dependsOn": ["^lint"]
@@ -18,6 +18,15 @@
       "persistent": true
     },
     "start:dev": {
+      "cache": false,
+      "persistent": true,
+      "env": ["APP_ENV", "API_PORT", "DATABASE_URL", "JWT_SECRET", "JWT_EXPIRATION_TIME"]
+    },
+    "start": {
+      "cache": false,
+      "persistent": true
+    },
+    "start:prod": {
       "cache": false,
       "persistent": true,
       "env": ["APP_ENV", "API_PORT", "DATABASE_URL", "JWT_SECRET", "JWT_EXPIRATION_TIME"]
