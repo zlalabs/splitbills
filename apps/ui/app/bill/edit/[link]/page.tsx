@@ -9,13 +9,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useGetBillById, useUpdateBillPaid } from '@/hooks/services/useBill'
 import { IBillDto } from '@/types'
 import { useTranslations } from 'next-intl'
-import { use, useEffect, useState } from 'react'
+import { useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
-export default function EditPage({ params }: { params: { link: string } }) {
+export default function EditPage() {
   const t = useTranslations()
 
-  const { link } = use(params)
-  const { data: bill, isLoading } = useGetBillById(link)
+  const params = useParams<{ link: string }>()
+
+  const { data: bill, isLoading } = useGetBillById(params.link)
   const updateBillPaid = useUpdateBillPaid()
 
   const [data, setData] = useState<IBillDto | undefined | null>()
@@ -23,7 +25,7 @@ export default function EditPage({ params }: { params: { link: string } }) {
 
   useEffect(() => {
     setData(bill?.data)
-  }, [isLoading])
+  }, [bill?.data, isLoading])
 
   const handleOnPaid = async (id: string) => {
     const members = data?.members?.map((member) => {
@@ -43,7 +45,7 @@ export default function EditPage({ params }: { params: { link: string } }) {
     const user = data?.members?.find((member) => member.id === id)
 
     updateBillPaid.mutate({
-      link: link,
+      link: params.link,
       data: {
         id: user!.id,
         paid: !user!.paid,

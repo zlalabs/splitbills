@@ -60,7 +60,7 @@ export const ModalPeople: FC<Props> = ({ isOpen, onOpen }) => {
 
     setRowSelection(data)
     setLoading(false)
-  }, [loading])
+  }, [loading, peoples, setLoading, tmpBill?.members])
 
   const handleOnCheckMember = (data: ITmpMemberDto[]) => {
     const names = data.map((d) => d.name)

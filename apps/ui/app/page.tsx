@@ -63,7 +63,7 @@ export default function Home() {
     <>
       <div>
         <div className="container mx-auto">
-          <div className="py-2 grid grid-cols-4 gap-4">
+          <div className="py-2 grid sx:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             {bills?.map((bill, i) => (
               <Card key={i} className="my-2 cursor-pointer py-4">
                 <CardContent>
