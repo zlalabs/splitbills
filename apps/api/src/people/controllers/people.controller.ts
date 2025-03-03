@@ -29,7 +29,7 @@ export class PeopleController {
 
   @Post()
   async create(@Req() req: IRequestWithUser, @Res() res: Response, @Body() body: CreatePeopleDto) {
-    const userId = req.user.id
+    const userId = req?.user!.id
     const query = await this.peopleService.create(body, userId)
     const response = new ResponseData(true, query)
     res.status(HttpStatus.CREATED).json(response)
@@ -42,7 +42,7 @@ export class PeopleController {
     @Query('page') page: number,
     @Query('limit') limit: number
   ) {
-    const userId = req.user.id
+    const userId = req?.user!.id
     const currentPage = page ? page : 1
     const perPage = limit ? limit : 50
     const query = await this.peopleService.findAll(currentPage, perPage, userId)
@@ -53,7 +53,7 @@ export class PeopleController {
 
   @Get(':id')
   async getById(@Req() req: IRequestWithUser, @Res() res: Response, @Param('id') id: string) {
-    const userId = req.user.id
+    const userId = req?.user!.id
     const people = await this.peopleService.findById(id, userId)
     if (!people) throw new HttpException('People not found', HttpStatus.NOT_FOUND)
     const response = new ResponseData(true, people)
@@ -67,7 +67,7 @@ export class PeopleController {
     @Param('id') id: string,
     @Body() body: UpdatePeopleDto
   ) {
-    const userId = req.user.id
+    const userId = req?.user!.id
     const check = await this.peopleService.findById(id, userId)
     if (!check) throw new HttpException('People not found', HttpStatus.NOT_FOUND)
     const people = await this.peopleService.updateById(id, body, userId)
@@ -77,7 +77,7 @@ export class PeopleController {
 
   @Delete(':id')
   async remove(@Req() req: IRequestWithUser, @Res() res: Response, @Param('id') id: string) {
-    const userId = req.user.id
+    const userId = req?.user!.id
     const people = await this.peopleService.findById(id, userId)
     if (!people) throw new HttpException('People not found', HttpStatus.NOT_FOUND)
 
