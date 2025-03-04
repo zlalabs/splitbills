@@ -29,11 +29,11 @@
         "NEXT_PUBLIC_URL"
       ]
     },
-    "prod:ui": {
+    "start": {
       "cache": false,
       "persistent": true
     },
-    "prod:api": {
+    "start:prod": {
       "cache": false,
       "persistent": true,
       "env": [
