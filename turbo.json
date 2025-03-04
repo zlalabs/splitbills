@@ -20,16 +20,26 @@
     "start:dev": {
       "cache": false,
       "persistent": true,
-      "env": ["APP_ENV", "API_PORT", "DATABASE_URL", "JWT_SECRET", "JWT_EXPIRATION_TIME"]
+      "env": [
+        "APP_ENV",
+        "API_PORT",
+        "DATABASE_URL",
+        "JWT_SECRET",
+        "JWT_EXPIRATION_TIME",
+        "NEXT_PUBLIC_URL"
+      ]
     },
-    "start": {
-      "cache": false,
-      "persistent": true
-    },
-    "start:prod": {
+    "prod": {
       "cache": false,
       "persistent": true,
-      "env": ["APP_ENV", "API_PORT", "DATABASE_URL", "JWT_SECRET", "JWT_EXPIRATION_TIME"]
+      "env": [
+        "APP_ENV",
+        "API_PORT",
+        "DATABASE_URL",
+        "JWT_SECRET",
+        "JWT_EXPIRATION_TIME",
+        "NEXT_PUBLIC_URL"
+      ]
     }
   }
 }

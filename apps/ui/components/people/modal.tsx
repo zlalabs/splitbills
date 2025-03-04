@@ -25,7 +25,6 @@ import { CheckedState } from '@radix-ui/react-checkbox'
 import {
   ColumnDef,
   ColumnFiltersState,
-  RowSelectionState,
   SortingState,
   VisibilityState,
   flexRender,
@@ -57,7 +56,6 @@ export const ModalPeople: FC<Props> = ({ isOpen, onOpen }) => {
 
   useEffect(() => {
     const data = transformToSelect(peoples, tmpBill?.members)
-
     setRowSelection(data)
     setLoading(false)
   }, [loading, peoples, setLoading, tmpBill?.members])
@@ -87,6 +85,26 @@ export const ModalPeople: FC<Props> = ({ isOpen, onOpen }) => {
     updateTmpBill({
       ...tmpBill!,
       members: uniqueMembers,
+      lists: lists,
+    })
+  }
+
+  const handleOnUnCheckMember = (data: ITmpMemberDto[]) => {
+    const names = data.map((d) => d.name)
+    const lists: ITmpListDto[] | undefined = tmpBill?.lists?.map((list) => {
+      const result: ITmpListDto = {
+        ...list,
+        peoples: list?.peoples?.filter((person) => names.includes(person)),
+      }
+
+      return result
+    })
+
+    const members = tmpBill?.members?.filter((member) => !names.includes(member.name))
+
+    updateTmpBill({
+      ...tmpBill!,
+      members: members,
       lists: lists,
     })
   }
@@ -129,18 +147,27 @@ export const ModalPeople: FC<Props> = ({ isOpen, onOpen }) => {
   }
 
   const onSelectChange = (index: number, value: CheckedState) => {
-    const data = table.getState().rowSelection
-    const updateData: RowSelectionState = { ...data, [index]: value }
-    const filterPeoples = Object.keys(updateData)
-      ?.map(Number)
-      ?.filter((index) => updateData[index])
-      ?.map((index) => peoples[index])
-      ?.filter(Boolean)
+    const checked = peoples
+      ?.filter((_, idx) => idx === index)
       ?.map((people) => {
         return people as ITmpMemberDto
       })
+    if (value) {
+      handleOnCheckMember(checked)
+    } else {
+      handleOnUnCheckMember(checked)
+    }
+  }
 
-    handleOnCheckMember(filterPeoples)
+  const onSelectAllChange = (value: CheckedState) => {
+    const checked = peoples?.map((people) => {
+      return people as ITmpMemberDto
+    })
+    if (value) {
+      handleOnCheckMember(checked)
+    } else {
+      handleOnUnCheckMember(checked)
+    }
   }
 
   const columns: ColumnDef<ITmpPeopleDto>[] = [
@@ -152,7 +179,10 @@ export const ModalPeople: FC<Props> = ({ isOpen, onOpen }) => {
             table.getIsAllPageRowsSelected() ||
             (table.getIsSomePageRowsSelected() && 'indeterminate')
           }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          onCheckedChange={(value) => {
+            table.toggleAllPageRowsSelected(!!value)
+            onSelectAllChange(value)
+          }}
           aria-label="Select all"
         />
       ),

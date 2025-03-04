@@ -54,7 +54,7 @@ export const ListTable: FC<Props> = ({ bill }) => {
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell colSpan={3}>{t('list.total')}</TableCell>
+            <TableCell colSpan={4}>{t('list.total')}</TableCell>
             <TableCell className="text-right">
               {bill?.lists?.reduce((total, item) => total + (item?.price ?? 0), 0)}
             </TableCell>

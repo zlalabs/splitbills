@@ -101,7 +101,7 @@ export const TmpListTable: FC<Props> = ({ onEdit }) => {
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell colSpan={3}>{t('list.total')}</TableCell>
+            <TableCell colSpan={4}>{t('list.total')}</TableCell>
             <TableCell className="text-right">
               {tmpBill?.lists?.reduce((total, item) => total + (item?.price ?? 0), 0)}
             </TableCell>
