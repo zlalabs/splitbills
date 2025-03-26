@@ -15,7 +15,12 @@
     "add_list": "Add List",
     "add_member": "Add Members",
     "price": "Price",
-    "delete": "Delete"
+    "delete": "Delete",
+    "copy": "Copy",
+    "copy_link": "Link copied",
+    "link": "Link",
+    "sign_in": "Sign In",
+    "sign_up": "Sign sign_up"
   },
   "people": {
     "list": "List Peoples",

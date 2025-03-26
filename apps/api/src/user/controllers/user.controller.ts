@@ -1,9 +1,8 @@
 import { Body, Controller, HttpException, HttpStatus, Post, Res } from '@nestjs/common'
+import { CreateUserDto, IResponseData, ViewUserDto } from '@splitbill/utils'
 import { hashSync } from 'bcrypt'
 import { Response } from 'express'
 import { Public } from '../../common/decorators/public.decorator'
-import { ResponseData } from '../../utils/response'
-import { CreateUserDto } from '../dtos/create-user.dto'
 import { UserService } from '../services/user.service'
 
 @Controller('users')
@@ -26,7 +25,10 @@ export class UserController {
     }
     const query = await this.userService.create(data)
     const { password: _, ...user } = query
-    const response = new ResponseData(true, user)
+    const response: IResponseData<ViewUserDto> = {
+      success: true,
+      data: user,
+    }
     res.status(HttpStatus.CREATED).json(response)
   }
 }

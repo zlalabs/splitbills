@@ -5,6 +5,9 @@
     "prepare": "husky",
     "build": "turbo build",
     "dev": "dotenv -- turbo dev start:dev --parallel",
+    "prod": "dotenv -- turbo start:prod start --parallel",
+    "prod:api": "dotenv -- turbo start:prod --parallel",
+    "prod:ui": "dotenv -- turbo start --parallel",
     "lint": "turbo lint --parallel",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "db-gen": "pnpm dlx prisma generate --schema=./apps/api/prisma/schema.prisma",
@@ -24,7 +27,7 @@
     "node": ">=20"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
+    "apps/**/*.{ts,tsx,json}": [
       "prettier --write",
       "eslint  --fix"
     ]

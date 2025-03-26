@@ -1,4 +1,5 @@
 import Header from '@/components/headers/header'
+import { Toaster } from '@/components/ui/toaster'
 import { ReactQueryClientProvider } from '@/contexts/ReactQueryClient'
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
@@ -37,6 +38,7 @@ export default async function RootLayout({
             <Header />
             <div className="container mx-auto mt-4 px-4">{children}</div>
           </NextIntlClientProvider>
+          <Toaster />
         </body>
       </ReactQueryClientProvider>
     </html>

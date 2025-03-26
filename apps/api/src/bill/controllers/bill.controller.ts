@@ -14,11 +14,12 @@ import {
   UseGuards,
 } from '@nestjs/common'
 
+import { Bill } from '@prisma/client'
+import { IResponseData, IResponsePaginate } from '@splitbill/utils'
 import { Response } from 'express'
 import { IRequestWithUser } from '../../auth/interfaces/user.interface'
 import { AuthGuard } from '../../common/guards/auth.guard'
 import { MSG_DELETE_SUCCESS } from '../../utils/constant'
-import { ResponseData, ResponsePaginate } from '../../utils/response'
 import { CreateBillDto } from '../dtos/create-bill.dto'
 import { UpdateBillDto } from '../dtos/update-bill.dto'
 import { BillService } from '../services/bill.service'
@@ -40,7 +41,13 @@ export class BillController {
     const perPage = limit ? limit : 50
     const query = await this.billService.findAll(currentPage, perPage, userId)
     const total = await this.billService.count(userId)
-    const response = new ResponsePaginate(true, query, currentPage, perPage, total)
+    const response: IResponsePaginate<Bill[]> = {
+      success: true,
+      data: query,
+      currentPage: currentPage,
+      perPage: perPage,
+      total: total,
+    }
     res.status(HttpStatus.OK).json(response)
   }
 
@@ -51,7 +58,10 @@ export class BillController {
     }
     const userId = req?.user!.id
     const query = await this.billService.create(data, userId)
-    const response = new ResponseData(true, query)
+    const response: IResponseData<Bill> = {
+      data: query,
+      success: true,
+    }
     res.status(HttpStatus.CREATED).json(response)
   }
 
@@ -59,7 +69,10 @@ export class BillController {
   async findOne(@Res() res: Response, @Param('id') id: string) {
     const query = await this.billService.findById(id)
     if (!query) throw new HttpException('Bill not found', HttpStatus.NOT_FOUND)
-    const response = new ResponseData(true, query)
+    const response: IResponseData<Bill> = {
+      data: query,
+      success: true,
+    }
     res.status(HttpStatus.OK).json(response)
   }
 
@@ -73,7 +86,10 @@ export class BillController {
     const query = await this.billService.findById(id)
     if (!query) throw new HttpException('Bill not found', HttpStatus.NOT_FOUND)
     const bill = await this.billService.update(id, body)
-    const response = new ResponseData(true, bill)
+    const response: IResponseData<Bill> = {
+      data: bill,
+      success: true,
+    }
     res.status(HttpStatus.OK).json(response)
   }
 
@@ -82,7 +98,10 @@ export class BillController {
     const query = await this.billService.findById(id)
     if (!query) throw new HttpException('Bill not found', HttpStatus.NOT_FOUND)
     await this.billService.remove(id)
-    const response = new ResponseData(true, null, MSG_DELETE_SUCCESS)
+    const response: IResponseData<string> = {
+      message: MSG_DELETE_SUCCESS,
+      success: true,
+    }
     res.status(HttpStatus.OK).json(response)
   }
 }

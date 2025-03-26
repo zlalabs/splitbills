@@ -1,5 +1,4 @@
-import { IBillDto, ICreateBillDto } from '@/types'
-import { IStoreState } from '@/types/store'
+import { IBillDto, ICreateBillDto, IStoreState } from '@/types'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -12,6 +11,11 @@ export const useAppStore = create<IStoreState>()(
       setLoading: (status: boolean) =>
         set(() => ({
           loading: status,
+        })),
+      isFirstTime: true,
+      setFirstTime: (status: boolean) =>
+        set(() => ({
+          isFirstTime: status,
         })),
       bills: [],
       createBill: (data: ICreateBillDto) =>
@@ -37,8 +41,12 @@ export const useAppStore = create<IStoreState>()(
           }),
         })),
       removePeople: (index) =>
-        set((state) => ({ peoples: state.peoples.filter((x, idx) => idx !== index) })),
-      tmpBill: undefined,
+        set((state) => ({ peoples: state.peoples.filter((_, idx) => idx !== index) })),
+      tmpBill: {
+        link: '',
+        members: [],
+        lists: [],
+      },
       updateTmpBill: (data) =>
         set(() => ({
           tmpBill: { ...data },

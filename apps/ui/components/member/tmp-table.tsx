@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { useAppStore } from '@/store/store'
+import { useAppStore } from '@/hooks/store'
 import { ITmpMemberDto } from '@/types'
 import { List, Pen, Trash2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'

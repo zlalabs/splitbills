@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { useAppStore } from '@/store/store'
+import { useAppStore } from '@/hooks/store'
 import { Pencil, Trash2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { FC, useState } from 'react'
@@ -101,7 +101,7 @@ export const TmpListTable: FC<Props> = ({ onEdit }) => {
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell colSpan={3}>{t('list.total')}</TableCell>
+            <TableCell colSpan={4}>{t('list.total')}</TableCell>
             <TableCell className="text-right">
               {tmpBill?.lists?.reduce((total, item) => total + (item?.price ?? 0), 0)}
             </TableCell>

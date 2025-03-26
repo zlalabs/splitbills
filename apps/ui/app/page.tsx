@@ -5,7 +5,7 @@ import { PeopleList } from '@/components/people/list'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { useDeleteBillByLink } from '@/hooks/services/useBill'
-import { useAppStore } from '@/store/store'
+import { useAppStore } from '@/hooks/store'
 import { IBillDto } from '@/types'
 import { AxiosError } from 'axios'
 import { useTranslations } from 'next-intl'
@@ -23,7 +23,7 @@ export default function Home() {
   const [bill, setBill] = useState<IBillDto | undefined>()
 
   const handleOnCreate = () => {
-    router.push('/create')
+    router.push('/bill/create')
   }
 
   const handleOnOpenDelete = (data: IBillDto) => {
@@ -63,7 +63,7 @@ export default function Home() {
     <>
       <div>
         <div className="container mx-auto">
-          <div className="py-2 grid grid-cols-4 gap-4">
+          <div className="py-2 grid sx:grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             {bills?.map((bill, i) => (
               <Card key={i} className="my-2 cursor-pointer py-4">
                 <CardContent>
@@ -79,13 +79,17 @@ export default function Home() {
                   </div>
                   <p className="float-right bottom-0">
                     <Button
+                      className="mr-2 cursor-pointer"
                       variant={'secondary'}
                       onClick={() => router.push(`/bill/edit/${bill.link}`)}
-                      className="mr-2"
                     >
                       {t('common.update')}
                     </Button>
-                    <Button variant={'destructive'} onClick={() => handleOnOpenDelete(bill)}>
+                    <Button
+                      className="cursor-pointer"
+                      variant={'destructive'}
+                      onClick={() => handleOnOpenDelete(bill)}
+                    >
                       {t('common.delete')}
                     </Button>
                   </p>
@@ -98,7 +102,7 @@ export default function Home() {
           </div>
 
           <div className="py-2">
-            <Button className="w-full text-lg rounded-full " onClick={handleOnCreate}>
+            <Button className="w-full text-lg rounded-full cursor-pointer" onClick={handleOnCreate}>
               {t('bill.create')}
             </Button>
           </div>

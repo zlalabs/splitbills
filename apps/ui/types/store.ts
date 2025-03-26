@@ -2,6 +2,8 @@ import { IBillDto, ICreateBillDto, ITmpBillDto } from './bill'
 import { ITmpPeopleDto } from './people'
 
 export interface IStoreState {
+  isFirstTime: boolean
+  setFirstTime: (status: boolean) => void
   loading: boolean
   setLoading: (status: boolean) => void
   bills: IBillDto[]

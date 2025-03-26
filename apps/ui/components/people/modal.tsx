@@ -17,7 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { useAppStore } from '@/store/store'
+import { useAppStore } from '@/hooks/store'
 import { ITmpListDto } from '@/types'
 import { ITmpMemberDto, ITmpPeopleDto } from '@/types/people'
 import { transformToSelect } from '@/utils/helper'
@@ -25,7 +25,6 @@ import { CheckedState } from '@radix-ui/react-checkbox'
 import {
   ColumnDef,
   ColumnFiltersState,
-  RowSelectionState,
   SortingState,
   VisibilityState,
   flexRender,
@@ -57,10 +56,9 @@ export const ModalPeople: FC<Props> = ({ isOpen, onOpen }) => {
 
   useEffect(() => {
     const data = transformToSelect(peoples, tmpBill?.members)
-
     setRowSelection(data)
     setLoading(false)
-  }, [loading])
+  }, [loading, peoples, setLoading, tmpBill?.members])
 
   const handleOnCheckMember = (data: ITmpMemberDto[]) => {
     const names = data.map((d) => d.name)
@@ -91,6 +89,26 @@ export const ModalPeople: FC<Props> = ({ isOpen, onOpen }) => {
     })
   }
 
+  const handleOnUnCheckMember = (data: ITmpMemberDto[]) => {
+    const names = data.map((d) => d.name)
+    const lists: ITmpListDto[] | undefined = tmpBill?.lists?.map((list) => {
+      const result: ITmpListDto = {
+        ...list,
+        peoples: list?.peoples?.filter((person) => names.includes(person)),
+      }
+
+      return result
+    })
+
+    const members = tmpBill?.members?.filter((member) => !names.includes(member.name))
+
+    updateTmpBill({
+      ...tmpBill!,
+      members: members,
+      lists: lists,
+    })
+  }
+
   const handleCreatePeople = () => {
     if (name?.trim() === '') return
     onAddPeople()
@@ -105,10 +123,12 @@ export const ModalPeople: FC<Props> = ({ isOpen, onOpen }) => {
 
   const onAddPeople = () => {
     setError(false)
-    const lastOrder = peoples.reduce((max, person) => (person.order > max ? person.order : max), 0)
+    const lastOrder = peoples?.reduce(
+      (max, person) => (person?.order > max ? person?.order : max),
+      0
+    )
 
-    const check = peoples.find((p) => p.name.toLowerCase() === name?.toLowerCase())
-
+    const check = peoples?.find((p) => p?.name?.toLowerCase() === name?.toLowerCase())
     if (check) {
       setError(true)
       return
@@ -127,18 +147,27 @@ export const ModalPeople: FC<Props> = ({ isOpen, onOpen }) => {
   }
 
   const onSelectChange = (index: number, value: CheckedState) => {
-    const data = table.getState().rowSelection
-    const updateData: RowSelectionState = { ...data, [index]: value }
-    const filterPeoples = Object.keys(updateData)
-      ?.map(Number)
-      ?.filter((index) => updateData[index])
-      ?.map((index) => peoples[index])
-      ?.filter(Boolean)
+    const checked = peoples
+      ?.filter((_, idx) => idx === index)
       ?.map((people) => {
         return people as ITmpMemberDto
       })
+    if (value) {
+      handleOnCheckMember(checked)
+    } else {
+      handleOnUnCheckMember(checked)
+    }
+  }
 
-    handleOnCheckMember(filterPeoples)
+  const onSelectAllChange = (value: CheckedState) => {
+    const checked = peoples?.map((people) => {
+      return people as ITmpMemberDto
+    })
+    if (value) {
+      handleOnCheckMember(checked)
+    } else {
+      handleOnUnCheckMember(checked)
+    }
   }
 
   const columns: ColumnDef<ITmpPeopleDto>[] = [
@@ -150,7 +179,10 @@ export const ModalPeople: FC<Props> = ({ isOpen, onOpen }) => {
             table.getIsAllPageRowsSelected() ||
             (table.getIsSomePageRowsSelected() && 'indeterminate')
           }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          onCheckedChange={(value) => {
+            table.toggleAllPageRowsSelected(!!value)
+            onSelectAllChange(value)
+          }}
           aria-label="Select all"
         />
       ),
@@ -279,7 +311,7 @@ export const ModalPeople: FC<Props> = ({ isOpen, onOpen }) => {
             </div>
           </div>
           <DialogFooter>
-            <Button type="button" onClick={() => onOpen(false)}>
+            <Button className="cursor-pointer" type="button" onClick={() => onOpen(false)}>
               {t('common.done')}
             </Button>
           </DialogFooter>

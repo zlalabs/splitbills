@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { useAppStore } from '@/store/store'
+import { useAppStore } from '@/hooks/store'
 import { ITmpListDto } from '@/types'
 import { MODE } from '@/utils/constant'
 import { useTranslations } from 'next-intl'
@@ -91,6 +91,7 @@ export const ModalList: FC<Props> = ({ mode, isOpen, onOpen, list, onChangeData,
         <DialogFooter className="">
           <div className="p-2">
             <Button
+              className="cursor-pointer"
               type="button"
               onClick={() => {
                 onSubmit()
@@ -102,6 +103,7 @@ export const ModalList: FC<Props> = ({ mode, isOpen, onOpen, list, onChangeData,
           </div>
           <div className="p-2">
             <Button
+              className="cursor-pointer"
               variant={'destructive'}
               type="button"
               onClick={() => {

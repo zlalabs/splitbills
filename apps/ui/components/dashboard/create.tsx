@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { useAppStore } from '@/store/store'
+import { useAppStore } from '@/hooks/store'
 import { useTranslations } from 'next-intl'
 
 export const DashboardCreate = () => {
