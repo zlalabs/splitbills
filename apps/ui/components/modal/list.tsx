@@ -91,6 +91,7 @@ export const ModalList: FC<Props> = ({ mode, isOpen, onOpen, list, onChangeData,
         <DialogFooter className="">
           <div className="p-2">
             <Button
+              className="cursor-pointer"
               type="button"
               onClick={() => {
                 onSubmit()
@@ -102,6 +103,7 @@ export const ModalList: FC<Props> = ({ mode, isOpen, onOpen, list, onChangeData,
           </div>
           <div className="p-2">
             <Button
+              className="cursor-pointer"
               variant={'destructive'}
               type="button"
               onClick={() => {

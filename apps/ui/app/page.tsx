@@ -79,13 +79,17 @@ export default function Home() {
                   </div>
                   <p className="float-right bottom-0">
                     <Button
+                      className="mr-2 cursor-pointer"
                       variant={'secondary'}
                       onClick={() => router.push(`/bill/edit/${bill.link}`)}
-                      className="mr-2"
                     >
                       {t('common.update')}
                     </Button>
-                    <Button variant={'destructive'} onClick={() => handleOnOpenDelete(bill)}>
+                    <Button
+                      className="cursor-pointer"
+                      variant={'destructive'}
+                      onClick={() => handleOnOpenDelete(bill)}
+                    >
                       {t('common.delete')}
                     </Button>
                   </p>
@@ -98,7 +102,7 @@ export default function Home() {
           </div>
 
           <div className="py-2">
-            <Button className="w-full text-lg rounded-full " onClick={handleOnCreate}>
+            <Button className="w-full text-lg rounded-full cursor-pointer" onClick={handleOnCreate}>
               {t('bill.create')}
             </Button>
           </div>

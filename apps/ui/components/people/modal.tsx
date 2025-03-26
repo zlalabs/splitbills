@@ -311,7 +311,7 @@ export const ModalPeople: FC<Props> = ({ isOpen, onOpen }) => {
             </div>
           </div>
           <DialogFooter>
-            <Button type="button" onClick={() => onOpen(false)}>
+            <Button className="cursor-pointer" type="button" onClick={() => onOpen(false)}>
               {t('common.done')}
             </Button>
           </DialogFooter>

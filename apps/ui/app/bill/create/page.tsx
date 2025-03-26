@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useCreateBill } from '@/hooks/services/useBill'
-import { useAppStore } from '@/store/store'
+import { useAppStore } from '@/hooks/store'
 import { ICreateBillDto, ITmpListDto, ITmpMemberDto } from '@/types'
 import { MODE } from '@/utils/constant'
 import { List, Loader2 } from 'lucide-react'
@@ -17,7 +17,7 @@ import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-export default function CreatePage() {
+export default function CreateBillPage() {
   const t = useTranslations()
   const router = useRouter()
   const { updateTmpBill, tmpBill, createBill } = useAppStore()
@@ -177,7 +177,7 @@ export default function CreatePage() {
                 onChange={handleOnChangeList}
                 onKeyDown={handleOnEnterList}
               />
-              <Button onClick={handleOnAddList}>
+              <Button className="cursor-pointer" onClick={handleOnAddList}>
                 <List />
                 {t('common.add_list')}
               </Button>
@@ -192,7 +192,7 @@ export default function CreatePage() {
                 onChange={handleOnChangeMember}
                 onKeyDown={handleOnEnterMember}
               />
-              <Button onClick={handleOnCreateMember}>
+              <Button className="cursor-pointer" onClick={handleOnCreateMember}>
                 <List />
                 {t('common.add_member')}
               </Button>
@@ -228,7 +228,7 @@ export default function CreatePage() {
       />
 
       <Button
-        className="w-full text-lg rounded-full my-4"
+        className="w-full text-lg rounded-full my-4 cursor-pointer"
         onClick={handleOnSubmit}
         disabled={loading && true}
       >

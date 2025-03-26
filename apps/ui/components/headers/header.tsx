@@ -12,10 +12,10 @@ const Header = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
 
-      <div className="navbar border-b dark:bg-slate-800 py-2 px-4 h-18">
-        <div className="container mx-auto">
+      <div className="navbar border-b dark:bg-slate-800 py-2 px-4 h-16 flex items-center ">
+        <div className="container mx-auto ">
           <div className="flex">
-            <div className="flex-1 flex items-center">
+            <div className="flex-1 flex">
               <Link href={'/'} className="btn btn-ghost text-3xl">
                 Budg<strong>Mate</strong> : <span className="text-2xl">Split Bills</span>
               </Link>
