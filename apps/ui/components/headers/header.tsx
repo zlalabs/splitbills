@@ -1,10 +1,11 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import Head from 'next/head'
 import Link from 'next/link'
 
 const Header = () => {
-  // const t = useTranslations()
+  const t = useTranslations()
 
   return (
     <div className="header">
@@ -20,12 +21,12 @@ const Header = () => {
                 Budg<strong>Mate</strong> : <span className="text-2xl">Split Bills</span>
               </Link>
             </div>
-            {/* <div className="flex items-center cursor-pointer mx-2">
+            <div className="flex items-center cursor-pointer mx-2">
               <Link href={'/user/signin'}>{t('common.sign_in')}</Link>
             </div>
             <div className="flex items-center cursor-pointer mx-2">
               <Link href={'/user/signup'}>{t('common.sign_up')}</Link>
-            </div> */}
+            </div>
           </div>
         </div>
       </div>
