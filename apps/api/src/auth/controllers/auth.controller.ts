@@ -1,8 +1,7 @@
 import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common'
-import { ForgetPassword } from '@prisma/client'
+import { IResponseData } from '@splitbill/utils'
 import { Response } from 'express'
 import { Public } from '../../common/decorators/public.decorator'
-import { ResponseData } from '../../utils/response'
 import { AuthDTO, IAuthResponse } from '../dtos/auth.dto'
 import { ForgetPasswordDto } from '../dtos/forget-password.dto'
 import { ResetPasswordDto } from '../dtos/reset-password.dto'
@@ -16,7 +15,7 @@ export class AuthController {
   @Post('login')
   async auth(@Res() res: Response, @Body() body: AuthDTO) {
     const data = await this.authService.validateUser(body)
-    const result: ResponseData<IAuthResponse> = {
+    const result: IResponseData<IAuthResponse> = {
       success: true,
       data: data,
     }
@@ -27,7 +26,7 @@ export class AuthController {
   @Post('password/forget')
   async passwordForget(@Res() res: Response, @Body() body: ForgetPasswordDto) {
     await this.authService.forgetPassword(body)
-    const result: ResponseData<ForgetPassword> = {
+    const result: IResponseData<string> = {
       success: true,
       message: 'Please check link in your email',
     }
@@ -38,7 +37,7 @@ export class AuthController {
   @Post('password/reset')
   async passwordReset(@Res() res: Response, @Body() body: ResetPasswordDto) {
     await this.authService.resetPassword(body)
-    const result: ResponseData<ForgetPassword> = {
+    const result: IResponseData<string> = {
       success: true,
       message: 'Password has changed',
     }

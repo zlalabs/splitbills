@@ -13,11 +13,12 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common'
+import { People } from '@prisma/client'
+import { IResponseData, IResponsePaginate } from '@splitbill/utils'
 import { Response } from 'express'
 import { IRequestWithUser } from '../../auth/interfaces/user.interface'
 import { AuthGuard } from '../../common/guards/auth.guard'
 import { MSG_DELETE_SUCCESS } from '../../utils/constant'
-import { ResponseData, ResponsePaginate } from '../../utils/response'
 import { CreatePeopleDto } from '../dtos/create-people.dto'
 import { UpdatePeopleDto } from '../dtos/update-people.dto'
 import { PeopleService } from '../services/people.service'
@@ -30,8 +31,11 @@ export class PeopleController {
   @Post()
   async create(@Req() req: IRequestWithUser, @Res() res: Response, @Body() body: CreatePeopleDto) {
     const userId = req?.user!.id
-    const query = await this.peopleService.create(body, userId)
-    const response = new ResponseData(true, query)
+    const people = await this.peopleService.create(body, userId)
+    const response: IResponseData<People> = {
+      success: true,
+      data: people,
+    }
     res.status(HttpStatus.CREATED).json(response)
   }
 
@@ -47,7 +51,13 @@ export class PeopleController {
     const perPage = limit ? limit : 50
     const query = await this.peopleService.findAll(currentPage, perPage, userId)
     const total = await this.peopleService.count(userId)
-    const response = new ResponsePaginate(true, query, currentPage, perPage, total)
+    const response: IResponsePaginate<People[]> = {
+      success: true,
+      data: query,
+      currentPage: currentPage,
+      perPage: perPage,
+      total: total,
+    }
     res.status(HttpStatus.OK).json(response)
   }
 
@@ -56,7 +66,10 @@ export class PeopleController {
     const userId = req?.user!.id
     const people = await this.peopleService.findById(id, userId)
     if (!people) throw new HttpException('People not found', HttpStatus.NOT_FOUND)
-    const response = new ResponseData(true, people)
+    const response: IResponseData<People> = {
+      success: true,
+      data: people,
+    }
     res.status(HttpStatus.OK).json(response)
   }
 
@@ -71,7 +84,10 @@ export class PeopleController {
     const check = await this.peopleService.findById(id, userId)
     if (!check) throw new HttpException('People not found', HttpStatus.NOT_FOUND)
     const people = await this.peopleService.updateById(id, body, userId)
-    const response = new ResponseData(true, people)
+    const response: IResponseData<People> = {
+      success: true,
+      data: people,
+    }
     res.status(HttpStatus.OK).json(response)
   }
 
@@ -82,7 +98,10 @@ export class PeopleController {
     if (!people) throw new HttpException('People not found', HttpStatus.NOT_FOUND)
 
     await this.peopleService.deleteById(id, userId)
-    const response = new ResponseData(true, null, MSG_DELETE_SUCCESS)
+    const response: IResponseData<string> = {
+      success: true,
+      message: MSG_DELETE_SUCCESS,
+    }
     res.status(HttpStatus.OK).json(response)
   }
 }

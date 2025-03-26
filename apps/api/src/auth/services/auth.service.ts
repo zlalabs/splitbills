@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { User } from '@prisma/client'
 import { compare, hashSync } from 'bcrypt'
-import { nanoid } from 'nanoid/async'
+import { nanoid } from 'nanoid'
 import { PrismaService } from '../../prisma/prisma.service'
 import { AuthDTO, IAuthResponse } from '../dtos/auth.dto'
 import { ForgetPasswordDto } from '../dtos/forget-password.dto'
@@ -79,7 +79,7 @@ export class AuthService {
       },
     })
 
-    const token = await nanoid(30)
+    const token = nanoid(30)
     if (!forgot) {
       const data = {
         userId: user.id,
