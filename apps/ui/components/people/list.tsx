@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 
 import { ModalPeople } from '@/components/people/modal'
-import { useAppStore } from '@/store/store'
+import { useAppStore } from '@/hooks/store'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 

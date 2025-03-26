@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { useAppStore } from '@/store/store'
+import { useAppStore } from '@/hooks/store'
 import { ITmpListDto } from '@/types'
 import { MODE } from '@/utils/constant'
 import { useTranslations } from 'next-intl'

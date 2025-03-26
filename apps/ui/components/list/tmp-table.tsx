@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { useAppStore } from '@/store/store'
+import { useAppStore } from '@/hooks/store'
 import { Pencil, Trash2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { FC, useState } from 'react'

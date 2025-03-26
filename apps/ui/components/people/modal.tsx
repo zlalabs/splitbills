@@ -17,7 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { useAppStore } from '@/store/store'
+import { useAppStore } from '@/hooks/store'
 import { ITmpListDto } from '@/types'
 import { ITmpMemberDto, ITmpPeopleDto } from '@/types/people'
 import { transformToSelect } from '@/utils/helper'

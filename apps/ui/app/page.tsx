@@ -5,7 +5,7 @@ import { PeopleList } from '@/components/people/list'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { useDeleteBillByLink } from '@/hooks/services/useBill'
-import { useAppStore } from '@/store/store'
+import { useAppStore } from '@/hooks/store'
 import { IBillDto } from '@/types'
 import { AxiosError } from 'axios'
 import { useTranslations } from 'next-intl'
@@ -23,7 +23,7 @@ export default function Home() {
   const [bill, setBill] = useState<IBillDto | undefined>()
 
   const handleOnCreate = () => {
-    router.push('/create')
+    router.push('/bill/create')
   }
 
   const handleOnOpenDelete = (data: IBillDto) => {
